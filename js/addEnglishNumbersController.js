@@ -26,10 +26,14 @@ var numbersArray = {
     'sixty': 60,
     'seventy': 70,
     'eighty': 80,
-    'ninety': 90
+    'ninety': 90,
 };
 
-var smallAccumulator;
+var magnitudesArray = {
+    'thousand':     1000,
+};
+
+var smallAccumulator, bigAccumulator, invalidElement;
 
 window.onload = function() {
     var addButton = document.getElementById('addButton');
@@ -42,13 +46,17 @@ window.onload = function() {
 };
 
 function convertTextToNumber(text) {
-    textArray = text.toLowerCase().toString().split(/[\s-,]+/);
+    invalidElement = "";
+    var textArray = text.toLowerCase().toString().split(/[\s-,]+/);
+    bigAccumulator = 0;
     smallAccumulator = 0;
     for (var textItem = 0; textItem < textArray.length; textItem++) {
         if (IsExists(textArray[textItem]))
             addTextNumberToGetNumber(textArray[textItem]);
     }
-    return smallAccumulator;
+    if (IsExists(invalidElement))
+        return "zero";
+    return bigAccumulator + smallAccumulator;
 }
 
 function IsExists(variable) {
@@ -61,8 +69,22 @@ function addTextNumberToGetNumber(word) {
     if (word == "and") {
       return;
     }
+    if ((!IsExists(number)) && (word != "hundred")) {
+        completeSumWithGreatestNumbers(word);
+    }
 }
 
 function getNumberByWordInArray (word, array) {
     return array[word];
+}
+
+function completeSumWithGreatestNumbers (word) {
+    var number = getNumberByWordInArray(word, magnitudesArray);
+    if (IsExists(number)) {
+        bigAccumulator = bigAccumulator + smallAccumulator * number;
+        smallAccumulator = 0;
+    }
+    else {
+        invalidElement = word;
+    }
 }

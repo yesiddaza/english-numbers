@@ -47,12 +47,9 @@ function toWords(number) {
                 unfinishedCents = false;
         }
     }
-    numberString.replace(/\s+/g,' ');
-    if (numberString.substring(numberString.length - 6) == (' and  '))
-        numberString = numberString.substring(0, numberString.length - 6);
 
+    numberString = deleteFinalAndInString(numberString);
     numberString = putHyphensToString(numberString);
-
     return numberString;
 }
 
@@ -66,6 +63,13 @@ function IsNumberInTensPosition(position) {
 
 function IsNumberInHundredsPosition(position) {
     return position % 3 == 0;
+}
+
+function deleteFinalAndInString(string) {
+    string.replace(/\s+/g,' ');
+    if (string.substring(string.length - 6) == (' and  '))
+        string = string.substring(0, string.length - 6);
+    return string;
 }
 
 function putHyphensToString(string) {

@@ -30,21 +30,29 @@ function toWords(number) {
                 unfinishedCents = true;
             }
         }
-        else if (numberArray[numberPosition]!=0) {
-            numberString += digitNumbersArray[numberArray[numberPosition]] + ' ';
-            if ( IsNumberInHundredsPosition(positionRightToLeft) )
-                numberString += 'hundred and ';
-            unfinishedCents = true;
+        else if (numberArray[numberPosition] != 0) {
+            setNumberStringWithDigits(positionRightToLeft, numberPosition);
         }
         if (IsNumberInUnitsPosition(numberLength-numberPosition)) {
-            if (unfinishedCents)
-                numberString += magnitudesStringsArray[(numberLength-numberPosition - 1) / 3] + ' ';
-                unfinishedCents = false;
+            setNumberStringInUnitsPosition(numberPosition);
         }
     }
     numberString = deleteFinalAndInString(numberString);
     numberString = putHyphensToString(numberString);
     return numberString;
+}
+
+function setNumberStringWithDigits(positionRightToLeft, numberPosition) {
+    numberString += digitNumbersArray[numberArray[numberPosition]] + ' ';
+    if ( IsNumberInHundredsPosition(positionRightToLeft) )
+        numberString += 'hundred and ';
+    unfinishedCents = true;
+}
+
+function setNumberStringInUnitsPosition(numberPosition) {
+    if (unfinishedCents)
+        numberString += magnitudesStringsArray[(numberLength-numberPosition - 1) / 3] + ' ';
+    unfinishedCents = false;
 }
 
 function initializeVariables(number) {

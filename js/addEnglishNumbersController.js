@@ -7,19 +7,30 @@ window.onload = function() {
         var firstNumber = document.getElementById('firstNumber').value;
         var secondNumber = document.getElementById('secondNumber').value;
         var answerLabel = document.getElementById('sumResult');
-        answerLabel.innerText = toWords(firstNumber);
+        answerLabel.innerText = addTextNumbers(firstNumber, secondNumber);
     });
 };
 
-function toWords(number) {
+function addTextNumbers(firstNumber, secondNumber) {
+    var answer = convertTextToNumber(firstNumber) + convertTextToNumber(secondNumber);
+    if (IsExists(invalidElement))
+        return "zero";
+    return convertNumberToText(answer);
+}
+
+function convertNumberToText(number) {
     number = number.toString().replace(/[\, ]/g,'');
     if ((number != parseFloat(number)) || (number.Length > 15))
         return 'not possible to complete';
     initializeVariables(number);
     setNumberString();
-    numberString = deleteFinalAndInString(numberString);
-    numberString = putHyphensToString(numberString);
-    return numberString;
+    return putFormat(numberString);
+}
+
+function putFormat(string) {
+    string = deleteFinalAndInString(string);
+    string = putHyphensToString(string);
+    return string
 }
 
 function setNumberString() {
@@ -107,8 +118,6 @@ function convertTextToNumber(text) {
         if (IsExists(textArray[textItem]))
             addTextNumberToGetNumber(textArray[textItem]);
     }
-    if (IsExists(invalidElement))
-        return "zero";
     return bigAccumulator + smallAccumulator;
 }
 

@@ -1,4 +1,4 @@
-var smallAccumulator, bigAccumulator, invalidElement;
+var smallAccumulator, bigAccumulator, invalidElement, numberLength, numberArray, numberString, unfinishedCents;
 
 window.onload = function() {
     var addButton = document.getElementById('addButton');
@@ -13,44 +13,45 @@ window.onload = function() {
 
 function toWords(number) {
     number = number.toString().replace(/[\, ]/g,'');
-    if (number != parseFloat(number))
-        return 'not a number';
-    numberLength = number.length;
-    if (numberLength > 15)
-        return 'too big';
-    var numberArray = number.split('');
-    var numberString = '';
-    var unfinishedCents = false;
-    for (var numberPosition=0; numberPosition < numberLength; numberPosition++) {
+    if ((number != parseFloat(number)) || (number.Length > 15))
+        return 'not possible to complete';
+    initializeVariables(number);
+    for (var numberPosition = 0; numberPosition < numberLength; numberPosition++) {
         console.log(numberArray[numberPosition] + " " + numberPosition + " " + " " + numberLength + " " + (numberLength-numberPosition) + " " + unfinishedCents);
-        var positionRightToLeft =  numberLength-numberPosition;
+        var positionRightToLeft =  numberLength - numberPosition;
         if ( IsNumberInTensPosition(positionRightToLeft) ) {
             if (numberArray[numberPosition] == '1') {
-                numberString += tenNumbersArray[Number(numberArray[numberPosition+1])] + ' ';
+                numberString += tenNumbersArray[Number(numberArray[numberPosition + 1])] + ' ';
                 numberPosition++;
                 unfinishedCents = true;
             }
-            else if (numberArray[numberPosition]!=0) {
-                numberString += tenMultiplesArray[numberArray[numberPosition]-2] + ' ';
+            else if (numberArray[numberPosition] != 0) {
+                numberString += tenMultiplesArray[numberArray[numberPosition] - 2] + ' ';
                 unfinishedCents = true;
             }
         }
         else if (numberArray[numberPosition]!=0) {
-            numberString += digitNumbersArray[numberArray[numberPosition]] +' ';
+            numberString += digitNumbersArray[numberArray[numberPosition]] + ' ';
             if ( IsNumberInHundredsPosition(positionRightToLeft) )
                 numberString += 'hundred and ';
             unfinishedCents = true;
         }
         if (IsNumberInUnitsPosition(numberLength-numberPosition)) {
             if (unfinishedCents)
-                numberString += magnitudesStringsArray[(numberLength-numberPosition-1)/3] + ' ';
+                numberString += magnitudesStringsArray[(numberLength-numberPosition - 1) / 3] + ' ';
                 unfinishedCents = false;
         }
     }
-
     numberString = deleteFinalAndInString(numberString);
     numberString = putHyphensToString(numberString);
     return numberString;
+}
+
+function initializeVariables(number) {
+    numberLength = number.length;
+    numberArray = number.split('');
+    numberString = '';
+    unfinishedCents = false;
 }
 
 function IsNumberInUnitsPosition(position) {

@@ -131,7 +131,7 @@ function addTextNumberToGetNumber(word) {
     if (word == "and") {
       return;
     }
-    if ((!IsExists(number)) && (word != "hundred")) {
+    if ((number != 0) && (!IsExists(number)) && (word != "hundred")) {
         completeSumWithGreatestNumbers(word);
     }
 }

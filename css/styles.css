@@ -1,0 +1,25 @@
+body {
+    background: url("../img/img_background.jpg") transparent no-repeat center / cover;
+}
+
+.english-sum-container {
+    background: white;
+    height: 100vh;
+}
+
+.english-sum-container .header{
+    display: flex;
+    align-items: center;
+    margin: 25px 0;
+    background: rgba(0, 0, 255, 0.65);
+    color: white;
+}
+
+
+.english-sum-container .logo {
+     background: url("../img/ico_header.jpg") transparent no-repeat center / contain;
+     height: 60px;
+     display: inline-block;
+     width: 100px;
+     margin-right: 15px;
+}

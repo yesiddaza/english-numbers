@@ -16,30 +16,35 @@ function toWords(number) {
     if ((number != parseFloat(number)) || (number.Length > 15))
         return 'not possible to complete';
     initializeVariables(number);
-    for (var numberPosition = 0; numberPosition < numberLength; numberPosition++) {
-        console.log(numberArray[numberPosition] + " " + numberPosition + " " + " " + numberLength + " " + (numberLength-numberPosition) + " " + unfinishedCents);
-        var positionRightToLeft =  numberLength - numberPosition;
-        if ( IsNumberInTensPosition(positionRightToLeft) ) {
-            if (numberArray[numberPosition] == '1') {
-                numberString += tenNumbersArray[Number(numberArray[numberPosition + 1])] + ' ';
-                numberPosition++;
-                unfinishedCents = true;
-            }
-            else if (numberArray[numberPosition] != 0) {
-                numberString += tenMultiplesArray[numberArray[numberPosition] - 2] + ' ';
-                unfinishedCents = true;
-            }
-        }
-        else if (numberArray[numberPosition] != 0) {
-            setNumberStringWithDigits(positionRightToLeft, numberPosition);
-        }
-        if (IsNumberInUnitsPosition(numberLength-numberPosition)) {
-            setNumberStringInUnitsPosition(numberPosition);
-        }
-    }
+    setNumberString();
     numberString = deleteFinalAndInString(numberString);
     numberString = putHyphensToString(numberString);
     return numberString;
+}
+
+function setNumberString() {
+    for (var numberPosition = 0; numberPosition < numberLength; numberPosition++) {
+        var positionRightToLeft =  numberLength - numberPosition;
+        if ( IsNumberInTensPosition(positionRightToLeft) )
+            numberPosition = getNewPositionInTensPosition(numberPosition);
+        else if (numberArray[numberPosition] != 0)
+            setNumberStringWithDigits(positionRightToLeft, numberPosition);
+        if (IsNumberInUnitsPosition(numberLength-numberPosition))
+            setNumberStringInUnitsPosition(numberPosition);
+    }
+}
+
+function getNewPositionInTensPosition(numberPosition) {
+    if (numberArray[numberPosition] == '1') {
+        numberString += tenNumbersArray[Number(numberArray[numberPosition + 1])] + ' ';
+        numberPosition++;
+        unfinishedCents = true;
+    }
+    else if (numberArray[numberPosition] != 0) {
+        numberString += tenMultiplesArray[numberArray[numberPosition] - 2] + ' ';
+        unfinishedCents = true;
+    }
+    return numberPosition;
 }
 
 function setNumberStringWithDigits(positionRightToLeft, numberPosition) {
